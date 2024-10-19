@@ -149,7 +149,7 @@ export default function Home() {
             "-73.9947449",
             new Date().toISOString(),
             "imageBlobId",
-            "descriptionBlobId",
+            description,
           ],
           account,
         });
@@ -341,7 +341,7 @@ export default function Home() {
                 {isLoading ? (
                   <Loader2 className="mr-2 h-6 w-6 animate-spin" />
                 ) : (
-                  "Mint NFT"
+                  "Add Record"
                 )}
               </Button>
             </div>
