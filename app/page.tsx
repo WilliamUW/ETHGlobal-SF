@@ -140,6 +140,8 @@ export default function Home() {
       //   body,
       // });
 
+      const imageBlobId = await storeStringAndGetBlobId(image ?? "") ?? "";
+
       if (account && walletClient) {
         const { request } = await publicClient.simulateContract({
           address: "0x968d147e523eed619180030e502c95700f1228b6",
@@ -150,7 +152,7 @@ export default function Home() {
             "40.7468733",
             "-73.9947449",
             new Date().toISOString(),
-            "imageBlobId",
+            imageBlobId,
             description,
           ],
           account,
