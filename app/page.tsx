@@ -285,7 +285,7 @@ export default function Home() {
               >
                 <Coins className="w-8 h-8 text-blue-300" />
                 <p className="text-white text-lg">
-                  3. Mint a Ether NFT to support wildlife tracking
+                  3. Mint a Ether Go Record to support wildlife tracking
                 </p>
               </div>
             </div>
@@ -373,11 +373,11 @@ export default function Home() {
       {step === 3 && nftData && (
         <Card className="bg-purple-100 border-4 border-purple-400 rounded-xl shadow-lg animate-fade-in">
           <CardHeader className="text-center text-xl font-bold text-green-600">
-            NFT Minted Successfully!
+            Record Added Successfully!
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-center">
-              Minted NFT Data:{" "}
+            Record Data:{" "}
               <a
                 href={
                   "https://amoy.polygonscan.com/address/0x968d147e523eed619180030e502c95700f1228b6#readContract"
