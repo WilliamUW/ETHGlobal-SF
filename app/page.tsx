@@ -18,6 +18,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import { account, publicClient, walletClient } from "./config";
+import {storeStringAndGetBlobId} from "./utility/walrus";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -138,6 +139,7 @@ export default function Home() {
       //   },
       //   body,
       // });
+
       if (account && walletClient) {
         const { request } = await publicClient.simulateContract({
           address: "0x968d147e523eed619180030e502c95700f1228b6",
@@ -205,6 +207,14 @@ export default function Home() {
       </h1>
       <h1 className="text-3xl font-bold mb-10 text-center text-white">
         <DynamicWidget />
+        <button
+          onClick={async () => {
+            const response = await storeStringAndGetBlobId("hi there12738ghsa8");
+            console.log(response)
+          }}
+        >
+          Walrus Test
+        </button>
         {/* <button
           onClick={async () => {
             const { request } = await publicClient.simulateContract({
