@@ -156,7 +156,7 @@ export default function Home() {
             },
             {
               trait_type: "Time Captured",
-              value: new Date().toISOString(),
+              value: new Date().toLocaleDateString(),
             },
           ],
         },
