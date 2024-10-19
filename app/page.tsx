@@ -18,7 +18,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import { account, publicClient, walletClient } from "./config";
-import {storeStringAndGetBlobId} from "./utility/walrus";
+import {readFromBlobId, storeStringAndGetBlobId} from "./utility/walrus";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -207,14 +207,7 @@ export default function Home() {
       </h1>
       <h1 className="text-3xl font-bold mb-10 text-center text-white">
         <DynamicWidget />
-        <button
-          onClick={async () => {
-            const response = await storeStringAndGetBlobId("hi there12738ghsa8");
-            console.log(response)
-          }}
-        >
-          Walrus Test
-        </button>
+        
         {/* <button
           onClick={async () => {
             const { request } = await publicClient.simulateContract({
@@ -228,6 +221,22 @@ export default function Home() {
           }}
         >Add Record</button> */}
       </h1>
+      <button
+          onClick={async () => {
+            const response = await storeStringAndGetBlobId("hi there12738ghsa8");
+            console.log(response)
+          }}
+        >
+          Walrus Write
+        </button>
+        <button
+          onClick={async () => {
+            const response = await readFromBlobId("vmbf83CdvrEmb4GwUpkMAT0XpibotkIsdCQYfvP619o");
+            console.log(response)
+          }}
+        >
+          Walrus Read
+        </button>
 
       {!publicKey && (
         <Card className="bg-gradient-to-br from-purple-400 to-blue-500 border-4 border-yellow-400 rounded-xl shadow-lg overflow-hidden">

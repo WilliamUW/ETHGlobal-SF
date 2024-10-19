@@ -1,4 +1,28 @@
 const PUBLISHER = 'https://publisher.walrus-testnet.walrus.space';
+const AGGREGATOR = 'https://aggregator.walrus-testnet.walrus.space';
+
+export async function readFromBlobId(blobId: string) {
+  try {
+    console.log("Read from: " + blobId)
+    // Make the API call to read from the blobId
+    const response = await fetch(`${AGGREGATOR}/v1/${blobId}`, {
+      method: 'GET',
+    });
+
+    // Check if the response is ok (status code in the range 200-299)
+    if (!response.ok) {
+      throw new Error(`Failed to retrieve data: ${response.statusText}`);
+    }
+
+    // Assuming the response returns a blob or JSON content
+    const result = await response.text(); // or response.text() depending on the content type
+    console.log('Data from Blob:', result);
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
 
 export async function storeStringAndGetBlobId(data: string) {
   try {
