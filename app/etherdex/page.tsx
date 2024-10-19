@@ -27,7 +27,7 @@ export default function EtherDex() {
             <CardContent className="p-4">
               <p className="text-sm text-gray-600 mb-2">{animal.description}</p>
               <p className="text-xs text-gray-400">
-                Spotted on {animal.date} at {animal.location}
+                Spotted on {animal.date} at Latitude: {animal.latitude}, Longitude: {animal.longitude}
               </p>
             </CardContent>
           </Card>

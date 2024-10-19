@@ -18,8 +18,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import { account, publicClient, walletClient } from "./config";
-import {readFromBlobId, storeStringAndGetBlobId} from "./utility/walrus";
-import {useAppContext} from "./AppContextProvider";
+import { readFromBlobId, storeStringAndGetBlobId } from "./utility/walrus";
+import { Animal, useAppContext } from "./AppContextProvider";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -56,19 +56,11 @@ export default function Home() {
     }
   }, []);
 
-  const addAnimalFromNft = (nftData) => {
-    const newAnimal = {
-      id: animals.length + 1, // Incremental ID for each new animal
-      name: `Ether Go Record: ${nftData.metadata.attributes[0].value}`, // Use species from metadata
-      species: nftData.metadata.attributes[0].value, // Species from the NFT attributes
-      location: `Lat: ${nftData.metadata.attributes[1].value}, Long: ${nftData.metadata.attributes[2].value}`, // Use Latitude and Longitude
-      date: nftData.metadata.attributes[3].value, // Time captured (ISO format)
-      description: nftData.metadata.description, // Description from NFT
-      image: nftData.metadata.image, // Image URL from NFT
-    };
+  const addAnimalFromNft = (nftData: Animal) => {
+    console.log(nftData)
 
     // Append the new animal to the existing animals array
-    setAnimals((prevAnimals) => [newAnimal, ...prevAnimals]);
+    setAnimals((prevAnimals) => [nftData, ...prevAnimals]);
   };
 
   const handleCapture = () => {
@@ -124,7 +116,6 @@ export default function Home() {
         return;
       }
 
-      
       // const mintNftResponse = await fetch("/api/mint-nft", {
       //   method: "POST",
       //   headers: {
@@ -133,33 +124,17 @@ export default function Home() {
       //   body,
       // });
 
-      const imageBlobId = await storeStringAndGetBlobId(image ?? "") ?? "";
+      const imageBlobId = (await storeStringAndGetBlobId(image ?? "")) ?? "";
 
       const nftData = {
-        recipient: publicKey,
-        metadata: {
-          name: `Ether Go Record: ${species}`,
-          image: image,
-          description: description,
-          attributes: [
-            {
-              trait_type: "Species",
-              value: species,
-            },
-            {
-              trait_type: "Latitude",
-              value: "40.7468733",
-            },
-            {
-              trait_type: "Longitude",
-              value: "-73.9947449",
-            },
-            {
-              trait_type: "Time Captured",
-              value: new Date().toLocaleDateString(),
-            },
-          ],
-        },
+        id: animals.length + 1,
+        name: `Ether Go Record: ${species}`,
+        species,
+        image,
+        description,
+        latitude: "40.7468733",
+        longitude: "-73.9947449",
+        date: new Date().toLocaleDateString(),
       };
 
       if (account && walletClient) {
@@ -181,9 +156,14 @@ export default function Home() {
         console.log(writeContractResponse);
       }
 
-      addAnimalFromNft(nftData)
+      addAnimalFromNft(nftData as Animal);
 
-      const data = nftData;
+
+      const data = {
+        ...nftData, // Spread the original data
+        image: "",
+      };
+
       setNftData(data);
       setStep(3);
     } catch (error) {
@@ -231,7 +211,7 @@ export default function Home() {
       </h1>
       <h1 className="text-3xl font-bold mb-10 text-center text-white">
         <DynamicWidget />
-        
+
         {/* <button
           onClick={async () => {
             const { request } = await publicClient.simulateContract({
@@ -246,21 +226,23 @@ export default function Home() {
         >Add Record</button> */}
       </h1>
       <button
-          onClick={async () => {
-            const response = await storeStringAndGetBlobId("hi there12738ghsa8");
-            console.log(response)
-          }}
-        >
-          Walrus Write
-        </button>
-        <button
-          onClick={async () => {
-            const response = await readFromBlobId("Jay9FqAhWCAoQsq4v4Vi_QNs6-CR5O5JjnRlt-kb-mE");
-            console.log(response)
-          }}
-        >
-          Walrus Read
-        </button>
+        onClick={async () => {
+          const response = await storeStringAndGetBlobId("hi there12738ghsa8");
+          console.log(response);
+        }}
+      >
+        Walrus Write
+      </button>
+      <button
+        onClick={async () => {
+          const response = await readFromBlobId(
+            "Jay9FqAhWCAoQsq4v4Vi_QNs6-CR5O5JjnRlt-kb-mE"
+          );
+          console.log(response);
+        }}
+      >
+        Walrus Read
+      </button>
 
       {!publicKey && (
         <Card className="bg-gradient-to-br from-purple-400 to-blue-500 border-4 border-yellow-400 rounded-xl shadow-lg overflow-hidden">
@@ -399,7 +381,7 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-center">
-            Record Data:{" "}
+              Record Data:{" "}
               <a
                 href={
                   "https://amoy.polygonscan.com/address/0x968d147e523eed619180030e502c95700f1228b6#readContract"
