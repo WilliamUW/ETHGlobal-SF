@@ -126,6 +126,16 @@ export default function Home() {
 
       const imageBlobId = (await storeStringAndGetBlobId(image ?? "")) ?? "";
 
+      const formattedDate = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true
+      }).format(new Date());
+
       const nftData = {
         id: animals.length + 1,
         name: `Ether Go Record: ${species}`,
@@ -134,7 +144,7 @@ export default function Home() {
         description,
         latitude: "40.7468733",
         longitude: "-73.9947449",
-        date: new Date().toLocaleDateString(),
+        date: formattedDate,
       };
 
       if (account && walletClient) {
