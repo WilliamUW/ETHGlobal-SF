@@ -34,7 +34,7 @@ export default function Home() {
 
   const [step, setStep] = useState(1);
   const [image, setImage] = useState<string | null>(null);
-  const [nftData, setNftData] = useState<{ explorerUrl: string } | null>(null);
+  const [nftData, setNftData] = useState<object | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -105,27 +105,59 @@ export default function Home() {
         return;
       }
 
-      const body = JSON.stringify({
-        image,
-        species,
-        description,
-        publicKey,
-      });
-
-      const mintNftResponse = await fetch("/api/mint-nft", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const nftData = {
+        recipient: publicKey,
+        metadata: {
+          name: `Ether Go Record: ${species}`,
+          image: image?.slice(0, 25) + "...",
+          description: description,
+          attributes: [
+            {
+              trait_type: "Species",
+              value: species,
+            },
+            {
+              trait_type: "Latitude",
+              value: "40.7468733",
+            },
+            {
+              trait_type: "Longitude",
+              value: "-73.9947449",
+            },
+            {
+              trait_type: "Time Captured",
+              value: new Date().toISOString(),
+            },
+          ],
         },
-        body,
-      });
-
-      if (!mintNftResponse.ok) {
-        const errorData = await mintNftResponse.json();
-        throw new Error(errorData.error || "Failed to mint NFT");
+      };
+      // const mintNftResponse = await fetch("/api/mint-nft", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body,
+      // });
+      if (account && walletClient) {
+        const { request } = await publicClient.simulateContract({
+          address: "0x968d147e523eed619180030e502c95700f1228b6",
+          abi: wagmiAbi,
+          functionName: "addRecord",
+          args: [
+            species,
+            "40.7468733",
+            "-73.9947449",
+            new Date().toISOString(),
+            "imageBlobId",
+            "descriptionBlobId",
+          ],
+          account,
+        });
+        const writeContractResponse = await walletClient.writeContract(request);
+        console.log(writeContractResponse);
       }
 
-      const data = await mintNftResponse.json();
+      const data = nftData;
       setNftData(data);
       setStep(3);
     } catch (error) {
@@ -173,7 +205,7 @@ export default function Home() {
       </h1>
       <h1 className="text-3xl font-bold mb-10 text-center text-white">
         <DynamicWidget />
-        <button
+        {/* <button
           onClick={async () => {
             const { request } = await publicClient.simulateContract({
               address: "0x968d147e523eed619180030e502c95700f1228b6",
@@ -184,7 +216,7 @@ export default function Home() {
             });
             await walletClient.writeContract(request);
           }}
-        >Add Record</button>
+        >Add Record</button> */}
       </h1>
 
       {!publicKey && (
@@ -326,7 +358,9 @@ export default function Home() {
             <p className="mb-4 text-center">
               Minted NFT Data:{" "}
               <a
-                href={nftData.explorerUrl}
+                href={
+                  "https://amoy.polygonscan.com/address/0x968d147e523eed619180030e502c95700f1228b6#readContract"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline"
