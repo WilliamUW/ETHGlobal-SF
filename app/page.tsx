@@ -68,7 +68,7 @@ export default function Home() {
     };
 
     // Append the new animal to the existing animals array
-    setAnimals((prevAnimals) => [...prevAnimals, newAnimal]);
+    setAnimals((prevAnimals) => [newAnimal, ...prevAnimals]);
   };
 
   const handleCapture = () => {
