@@ -57,7 +57,7 @@ export default function Home() {
   }, []);
 
   const addAnimalFromNft = (nftData: Animal) => {
-    console.log(nftData)
+    console.log(nftData);
 
     // Append the new animal to the existing animals array
     setAnimals((prevAnimals) => [nftData, ...prevAnimals]);
@@ -126,14 +126,14 @@ export default function Home() {
 
       const imageBlobId = (await storeStringAndGetBlobId(image ?? "")) ?? "";
 
-      const formattedDate = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: true
+      const formattedDate = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
       }).format(new Date());
 
       const nftData = {
@@ -153,12 +153,12 @@ export default function Home() {
           abi: wagmiAbi,
           functionName: "addRecord",
           args: [
-            species,
-            "40.7468733",
-            "-73.9947449",
-            new Date().toISOString(),
+            nftData.species,
+            nftData.latitude,
+            nftData.longitude,
+            nftData.date,
             imageBlobId,
-            description,
+            nftData.description,
           ],
           account,
         });
@@ -167,7 +167,6 @@ export default function Home() {
       }
 
       addAnimalFromNft(nftData as Animal);
-
 
       const data = {
         ...nftData, // Spread the original data
@@ -235,24 +234,30 @@ export default function Home() {
           }}
         >Add Record</button> */}
       </h1>
-      <button
-        onClick={async () => {
-          const response = await storeStringAndGetBlobId("hi there12738ghsa8");
-          console.log(response);
-        }}
-      >
-        Walrus Write
-      </button>
-      <button
-        onClick={async () => {
-          const response = await readFromBlobId(
-            "Jay9FqAhWCAoQsq4v4Vi_QNs6-CR5O5JjnRlt-kb-mE"
-          );
-          console.log(response);
-        }}
-      >
-        Walrus Read
-      </button>
+      {false && (
+        <div>
+          <button
+            onClick={async () => {
+              const response = await storeStringAndGetBlobId(
+                "hi there12738ghsa8"
+              );
+              console.log(response);
+            }}
+          >
+            Walrus Write
+          </button>
+          <button
+            onClick={async () => {
+              const response = await readFromBlobId(
+                "Jay9FqAhWCAoQsq4v4Vi_QNs6-CR5O5JjnRlt-kb-mE"
+              );
+              console.log(response);
+            }}
+          >
+            Walrus Read
+          </button>
+        </div>
+      )}
 
       {!publicKey && (
         <Card className="bg-gradient-to-br from-purple-400 to-blue-500 border-4 border-yellow-400 rounded-xl shadow-lg overflow-hidden">
