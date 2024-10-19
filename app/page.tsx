@@ -19,6 +19,7 @@ import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import { account, publicClient, walletClient } from "./config";
 import {readFromBlobId, storeStringAndGetBlobId} from "./utility/walrus";
+import {useAppContext} from "./AppContextProvider";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -30,6 +31,8 @@ const model = genAI.getGenerativeModel({
 });
 
 export default function Home() {
+  const { animals, setAnimals } = useAppContext();
+
   const { primaryWallet } = useDynamicContext();
   const publicKey = primaryWallet?.address;
 
@@ -52,6 +55,21 @@ export default function Home() {
         .catch((err) => console.error("Error accessing camera:", err));
     }
   }, []);
+
+  const addAnimalFromNft = (nftData) => {
+    const newAnimal = {
+      id: animals.length + 1, // Incremental ID for each new animal
+      name: `Ether Go Record: ${nftData.metadata.attributes[0].value}`, // Use species from metadata
+      species: nftData.metadata.attributes[0].value, // Species from the NFT attributes
+      location: `Lat: ${nftData.metadata.attributes[1].value}, Long: ${nftData.metadata.attributes[2].value}`, // Use Latitude and Longitude
+      date: nftData.metadata.attributes[3].value, // Time captured (ISO format)
+      description: nftData.metadata.description, // Description from NFT
+      image: nftData.metadata.image, // Image URL from NFT
+    };
+
+    // Append the new animal to the existing animals array
+    setAnimals((prevAnimals) => [...prevAnimals, newAnimal]);
+  };
 
   const handleCapture = () => {
     if (videoRef.current) {
@@ -106,11 +124,22 @@ export default function Home() {
         return;
       }
 
+      
+      // const mintNftResponse = await fetch("/api/mint-nft", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body,
+      // });
+
+      const imageBlobId = await storeStringAndGetBlobId(image ?? "") ?? "";
+
       const nftData = {
         recipient: publicKey,
         metadata: {
           name: `Ether Go Record: ${species}`,
-          image: image?.slice(0, 25) + "...",
+          image: image,
           description: description,
           attributes: [
             {
@@ -132,15 +161,6 @@ export default function Home() {
           ],
         },
       };
-      // const mintNftResponse = await fetch("/api/mint-nft", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body,
-      // });
-
-      const imageBlobId = await storeStringAndGetBlobId(image ?? "") ?? "";
 
       if (account && walletClient) {
         const { request } = await publicClient.simulateContract({
@@ -160,6 +180,8 @@ export default function Home() {
         const writeContractResponse = await walletClient.writeContract(request);
         console.log(writeContractResponse);
       }
+
+      addAnimalFromNft(nftData)
 
       const data = nftData;
       setNftData(data);
