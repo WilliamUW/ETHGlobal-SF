@@ -15,13 +15,12 @@ export default function EtherDex() {
         {animals.map((animal) => (
           <Card key={animal.id} className="bg-white border-4 border-yellow-400 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
             <CardHeader className="p-4">
-              <h2 className="text-xl font-bold text-purple-600">{animal.name}</h2>
-              <p className="text-sm text-gray-500">{animal.species}</p>
+              <h2 className="text-xl font-bold text-purple-600">{animal.species}</h2>
             </CardHeader>
             <img src={animal.image} alt={animal.name} width={200} height={200} className="w-full h-48 object-cover" />
             <CardContent className="p-4">
               <p className="text-sm text-gray-600 mb-2">{animal.description}</p>
-              <p className="text-xs text-gray-400">Spotted on {animal.date} at {animal.location}</p>
+              <p className="text-xs text-gray-400">Spotted on {animal.date} at {animal.location} (-73.9947449, 40.7468733)</p>
             </CardContent>
           </Card>
         ))}
