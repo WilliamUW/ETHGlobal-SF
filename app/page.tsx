@@ -15,7 +15,9 @@ import {
 import Image from "next/image";
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import {DynamicWidget, useDynamicContext} from "@dynamic-labs/sdk-react-core";
+import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { wagmiAbi } from "./abi";
+import { account, publicClient, walletClient } from "./config";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -27,9 +29,8 @@ const model = genAI.getGenerativeModel({
 });
 
 export default function Home() {
-  const { primaryWallet } =
-    useDynamicContext();
-  const publicKey = primaryWallet?.address
+  const { primaryWallet } = useDynamicContext();
+  const publicKey = primaryWallet?.address;
 
   const [step, setStep] = useState(1);
   const [image, setImage] = useState<string | null>(null);
@@ -109,7 +110,7 @@ export default function Home() {
         species,
         description,
         publicKey,
-      })
+      });
 
       const mintNftResponse = await fetch("/api/mint-nft", {
         method: "POST",
@@ -172,6 +173,18 @@ export default function Home() {
       </h1>
       <h1 className="text-3xl font-bold mb-10 text-center text-white">
         <DynamicWidget />
+        <button
+          onClick={async () => {
+            const { request } = await publicClient.simulateContract({
+              address: "0x968d147e523eed619180030e502c95700f1228b6",
+              abi: wagmiAbi,
+              functionName: "addRecord",
+              args: ["hi1","hi2","hi3","hi4","hi5","hi6"],
+              account,
+            });
+            await walletClient.writeContract(request);
+          }}
+        >Add Record</button>
       </h1>
 
       {!publicKey && (
