@@ -177,6 +177,11 @@ export default function Home() {
         }
       } else if (chain == "skale") {
         if (skalePublicClient && skaleWalletClient) {
+          const account = await skaleWalletClient.getAddresses();
+          if (!account || account.length === 0) {
+            throw new Error("Account is not defined or empty");
+          }
+        
           const { request } = await skalePublicClient.simulateContract({
             address: "0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef",
             abi: wagmiAbi,
@@ -189,14 +194,12 @@ export default function Home() {
               imageBlobId,
               nftData.description,
             ],
-            account,
+            account: account[0], // Pass the correct account here
           });
-          // ts-expect-error test
-          const writeContractResponse = await skaleWalletClient.writeContract(
-            request
-          );
+        
+          const writeContractResponse = await skaleWalletClient.writeContract(request);
           console.log(writeContractResponse);
-        }
+        }        
       }
 
       addAnimalFromNft(nftData as Animal);
