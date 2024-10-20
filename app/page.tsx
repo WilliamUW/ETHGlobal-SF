@@ -28,6 +28,7 @@ import {
 } from "./config";
 import { readFromBlobId, storeStringAndGetBlobId } from "./utility/walrus";
 import { Animal, useAppContext } from "./AppContextProvider";
+import {motion} from "framer-motion";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -288,157 +289,153 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-md align-middle justify-center">
-      <h1 className="text-3xl font-bold mb-4 text-center text-white animate-pulse">
-        Ether Go!
-      </h1>
-      <h1 className="text-3xl font-bold mb-10 text-center text-white">
-        <DynamicWidget />
-
-        {/* <button
-          onClick={async () => {
-            const { request } = await publicClient.simulateContract({
-              address: "0x968d147e523eed619180030e502c95700f1228b6",
-              abi: wagmiAbi,
-              functionName: "addRecord",
-              args: ["hi1","hi2","hi3","hi4","hi5","hi6"],
-              account,
-            });
-            await walletClient.writeContract(request);
-          }}
-        >Add Record</button> */}
-      </h1>
-      {false && (
-        <div>
-          <button
-            onClick={async () => {
-              const response = await storeStringAndGetBlobId(
-                "hi there12738ghsa8"
-              );
-              console.log(response);
-            }}
-          >
-            Walrus Write
-          </button>
-          <button
-            onClick={async () => {
-              const response = await readFromBlobId(
-                "Jay9FqAhWCAoQsq4v4Vi_QNs6-CR5O5JjnRlt-kb-mE"
-              );
-              console.log(response);
-            }}
-          >
-            Walrus Read
-          </button>
-        </div>
-      )}
-      {/* <button
-        onClick={async () => {
-          const response = await primaryWallet?.getNetwork();
-          console.log(response);
-        }}
+    <div className="container mx-auto p-4 max-w-md align-middle justify-center bg-red-600 min-h-screen">
+      <motion.h1 
+        className="text-4xl font-bold mb-4 text-center text-white"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
-        get network
-      </button> */}
+        Ether Go!
+      </motion.h1>
+      <motion.h1 
+        className="text-3xl font-bold mb-10 text-center text-white"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
+        <DynamicWidget />
+      </motion.h1>
 
       {!publicKey && (
-        <Card className="bg-gradient-to-br from-purple-400 to-blue-500 border-4 border-yellow-400 rounded-xl shadow-lg overflow-hidden">
-          <CardHeader className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4 animate-bounce">
-              Welcome to Ether Go!
-            </h2>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center">
-            <div className="mb-8 relative w-64 h-64">
-              <Image
-                src="/logo.webp"
-                alt="EtherDex Logo"
-                width={256}
-                height={256}
-                className="rounded-full animate-spin-slow"
-              />
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                <CameraIcon className="w-32 h-32 text-white animate-pulse" />
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
+          <Card className="bg-gradient-to-br from-red-400 to-red-600 border-8 border-yellow-400 rounded-3xl shadow-lg overflow-hidden">
+            <CardHeader className="text-center">
+              <h2 className="text-3xl font-bold text-white mb-4 animate-bounce">
+                Welcome to Ether Go!
+              </h2>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center">
+              <div className="mb-8 relative w-64 h-64">
+                <Image
+                  src="/logo.webp"
+                  alt="EtherDex Logo"
+                  width={256}
+                  height={256}
+                  className="rounded-full animate-spin-slow"
+                />
+                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                  <CameraIcon className="w-32 h-32 text-white animate-pulse" />
+                </div>
               </div>
-            </div>
-            <div className="space-y-6 w-full">
-              <div
-                className="flex items-center space-x-4 animate-fade-in-up"
-                style={{ animationDelay: "0.2s" }}
-              >
-                <Wallet className="w-8 h-8 text-yellow-300" />
-                <p className="text-white text-lg">
-                  1. Connect your Ether Wallet
-                </p>
+              <div className="space-y-6 w-full">
+                <motion.div
+                  className="flex items-center space-x-4"
+                  initial={{ x: -50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                >
+                  <Wallet className="w-8 h-8 text-yellow-300" />
+                  <p className="text-white text-lg">
+                    1. Connect your Ether Wallet
+                  </p>
+                </motion.div>
+                <motion.div
+                  className="flex items-center space-x-4"
+                  initial={{ x: 50, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.5 }}
+                >
+                  <Camera className="w-8 h-8 text-yellow-300" />
+                  <p className="text-white text-lg">
+                    2. Take a picture of a Ethermon
+                  </p>
+                </motion.div>
+                <motion.div
+                  className="flex items-center space-x-4"
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.5 }}
+                >
+                  <Coins className="w-8 h-8 text-yellow-300" />
+                  <p className="text-white text-lg">
+                    3. Write a Ether Go Record to support Ethermon tracking
+                  </p>
+                </motion.div>
               </div>
-              <div
-                className="flex items-center space-x-4 animate-fade-in-up"
-                style={{ animationDelay: "0.4s" }}
-              >
-                <Camera className="w-8 h-8 text-green-300" />
-                <p className="text-white text-lg">
-                  2. Take a picture of an animal
-                </p>
-              </div>
-              <div
-                className="flex items-center space-x-4 animate-fade-in-up"
-                style={{ animationDelay: "0.6s" }}
-              >
-                <Coins className="w-8 h-8 text-blue-300" />
-                <p className="text-white text-lg">
-                  3. Write an Ether Go Record to support wildlife tracking
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </motion.div>
       )}
 
       {publicKey && step === 1 && (
-        <Card className="bg-yellow-100 border-4 border-yellow-400 rounded-xl shadow-lg animate-bounce">
-          <CardHeader className="text-center text-xl font-bold text-blue-600">
-            Capture an Animal
-          </CardHeader>
-          <CardContent>
-            {image && (
-              <div className="mt-4">
-                <img
-                  src={image}
-                  alt="Preview"
-                  className="max-w-full h-auto max-h-64 rounded-lg"
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="bg-white border-8 border-yellow-400 rounded-3xl shadow-lg">
+            <CardHeader className="text-center text-2xl font-bold text-red-600">
+              Capture a Ethermon
+            </CardHeader>
+            <CardContent>
+              {image && (
+                <motion.div 
+                  className="mt-4"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img
+                    src={image}
+                    alt="Preview"
+                    className="max-w-full h-auto max-h-64 rounded-lg"
+                  />
+                </motion.div>
+              )}
+              {!image && (
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className="w-full h-64 object-cover rounded-lg mb-4"
                 />
-              </div>
-            )}
-            {!image && (
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="w-full h-64 object-cover rounded-lg mb-4"
+              )}
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  onClick={handleCapture}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-full transition-all duration-300 transform hover:scale-105"
+                >
+                  <Camera className="mr-2 h-6 w-6" /> Capture
+                </Button>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }}
+                className="mt-4"
+              >
+                <Button
+                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
+                  onClick={() => fileInputRef?.current?.click()}
+                >
+                  <Upload className="mr-2 h-4 w-4" /> Upload
+                </Button>
+              </motion.div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                className="hidden"
               />
-            )}
-            <Button
-              onClick={handleCapture}
-              className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105"
-            >
-              <Camera className="mr-2 h-6 w-6" /> Capture
-            </Button>
-            <Button
-              className="w-full mt-4"
-              onClick={() => fileInputRef?.current?.click()}
-            >
-              <Upload className="mr-2 h-4 w-4" /> Upload
-            </Button>
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept="image/*"
-              className="hidden"
-            />
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </motion.div>
       )}
 
       {step === 2 && image && (
