@@ -19,6 +19,8 @@ import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import {
   account,
+  morphPublicClient,
+  morphWalletClient,
   publicClient,
   skalePublicClient,
   skaleWalletClient,
@@ -204,6 +206,33 @@ export default function Home() {
           });
 
           const writeContractResponse = await skaleWalletClient.writeContract(
+            request
+          );
+          console.log(writeContractResponse);
+        }
+      } else if (networkId == 2810) {
+        if (morphWalletClient && morphPublicClient) {
+          const account = await morphWalletClient.getAddresses();
+          if (!account || account.length === 0) {
+            throw new Error("Account is not defined or empty");
+          }
+
+          const { request } = await morphPublicClient.simulateContract({
+            address: "0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef",
+            abi: wagmiAbi,
+            functionName: "addRecord",
+            args: [
+              nftData.species,
+              nftData.latitude,
+              nftData.longitude,
+              nftData.date,
+              imageBlobId,
+              nftData.description,
+            ],
+            account: account[0], // Pass the correct account here
+          });
+
+          const writeContractResponse = await morphWalletClient.writeContract(
             request
           );
           console.log(writeContractResponse);
