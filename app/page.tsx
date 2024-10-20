@@ -386,7 +386,7 @@ export default function Home() {
               >
                 <Coins className="w-8 h-8 text-blue-300" />
                 <p className="text-white text-lg">
-                  3. Mint a Ether Go Record to support wildlife tracking
+                  3. Write an Ether Go Record to support wildlife tracking
                 </p>
               </div>
             </div>
