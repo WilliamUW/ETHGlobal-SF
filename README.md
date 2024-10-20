@@ -21,6 +21,15 @@ Ether Go gamifies wildlife tracking, turning nature lovers into **citizen scient
 - **Smart Contracts**: Mint records and track animal sightings on-chain.
 - **Dynamic Wallet Integration**: Seamless wallet connection for users.
 
+## Integrations:
+
+- [Polygon](https://github.com/WilliamUW/ETHGlobal-SF/blob/main/contracts/polygon.md)
+- [Skale](https://github.com/WilliamUW/ETHGlobal-SF/blob/main/contracts/skale.md)
+- [Flow](https://github.com/WilliamUW/ETHGlobal-SF/blob/main/contracts/flow.md)
+- [Morph](https://github.com/WilliamUW/ETHGlobal-SF/blob/main/contracts/morph.md)
+- [Walrus](https://github.com/WilliamUW/ETHGlobal-SF/blob/main/contracts/walrus.md)
+- [Dynamic](https://github.com/WilliamUW/ETHGlobal-SF/blob/main/contracts/dynamic.md)
+
 ## 🦒 **How It Works:**
 1. **See an Animal**: Spot an animal in the wild!
 2. **Snap a Photo**: Capture the moment on your phone.
@@ -31,6 +40,5 @@ Ether Go gamifies wildlife tracking, turning nature lovers into **citizen scient
 We’re building the future of wildlife tracking—crowdsourcing it globally and building a decentralized database of animal species. 🐘🦜 By making conservation fun, Ether Go is bridging the gap between **technology** and **environmental protection**, one record at a time.
 
 Join us on **Ether Go** and let’s **save the planet** while collecting awesome record memories! 🌍🐾
-
 
 
