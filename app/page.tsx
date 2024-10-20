@@ -25,10 +25,12 @@ import {
   skalePublicClient,
   skaleWalletClient,
   walletClient,
+  flowPublicClient,
+  flowWalletClient,
 } from "./config";
-import { readFromBlobId, storeStringAndGetBlobId } from "./utility/walrus";
+import { storeStringAndGetBlobId } from "./utility/walrus";
 import { Animal, useAppContext } from "./AppContextProvider";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -54,8 +56,6 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [chain, setChain] = useState("skale");
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -129,14 +129,6 @@ export default function Home() {
         handleNonAnimal(description);
         return;
       }
-
-      // const mintNftResponse = await fetch("/api/mint-nft", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body,
-      // });
 
       const imageBlobId = (await storeStringAndGetBlobId(image ?? "")) ?? "";
 
@@ -238,6 +230,33 @@ export default function Home() {
           );
           console.log(writeContractResponse);
         }
+      } else if (networkId == 545) {
+        if (flowWalletClient && flowPublicClient) {
+          const account = await flowWalletClient.getAddresses();
+          if (!account || account.length === 0) {
+            throw new Error("Account is not defined or empty");
+          }
+
+          const { request } = await flowPublicClient.simulateContract({
+            address: "0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef",
+            abi: wagmiAbi,
+            functionName: "addRecord",
+            args: [
+              nftData.species,
+              nftData.latitude,
+              nftData.longitude,
+              nftData.date,
+              imageBlobId,
+              nftData.description,
+            ],
+            account: account[0], // Pass the correct account here
+          });
+
+          const writeContractResponse = await flowWalletClient.writeContract(
+            request
+          );
+          console.log(writeContractResponse);
+        }
       }
 
       addAnimalFromNft(nftData as Animal);
@@ -290,7 +309,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4 max-w-md align-middle justify-center bg-red-600 min-h-screen">
-      <motion.h1 
+      <motion.h1
         className="text-4xl font-bold mb-4 text-center text-white"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -298,7 +317,7 @@ export default function Home() {
       >
         Ether Go!
       </motion.h1>
-      <motion.h1 
+      <motion.h1
         className="text-3xl font-bold mb-10 text-center text-white"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -384,7 +403,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               {image && (
-                <motion.div 
+                <motion.div
                   className="mt-4"
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -406,7 +425,10 @@ export default function Home() {
                   className="w-full h-64 object-cover rounded-lg mb-4"
                 />
               )}
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <Button
                   onClick={handleCapture}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-full transition-all duration-300 transform hover:scale-105"
@@ -414,8 +436,8 @@ export default function Home() {
                   <Camera className="mr-2 h-6 w-6" /> Capture
                 </Button>
               </motion.div>
-              <motion.div 
-                whileHover={{ scale: 1.05 }} 
+              <motion.div
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="mt-4"
               >

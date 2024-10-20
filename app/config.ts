@@ -1,5 +1,10 @@
 import { createPublicClient, createWalletClient, custom, http } from "viem";
-import { polygonAmoy, skaleNebulaTestnet, morphHolesky } from "viem/chains";
+import {
+  polygonAmoy,
+  skaleNebulaTestnet,
+  morphHolesky,
+  flowTestnet,
+} from "viem/chains";
 
 export const publicClient = createPublicClient({
   chain: polygonAmoy,
@@ -10,6 +15,19 @@ export const walletClient =
   typeof window !== "undefined" && window.ethereum
     ? createWalletClient({
         chain: polygonAmoy,
+        transport: custom(window.ethereum),
+      })
+    : null;
+
+export const flowPublicClient = createPublicClient({
+  chain: flowTestnet,
+  transport: http(),
+});
+
+export const flowWalletClient =
+  typeof window !== "undefined" && window.ethereum
+    ? createWalletClient({
+        chain: flowTestnet,
         transport: custom(window.ethereum),
       })
     : null;
@@ -32,7 +50,6 @@ export const skalePublicClient = createPublicClient({
   transport: http(),
 });
 
-// Check if window is available (client-side) before using window.ethereum
 export const skaleWalletClient =
   typeof window !== "undefined" && window.ethereum
     ? createWalletClient({
