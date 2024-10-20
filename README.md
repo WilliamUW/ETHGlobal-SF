@@ -39,6 +39,9 @@ Ether Go gamifies wildlife tracking, turning nature lovers into **citizen scient
 ## 🎯 **The Big Vision:**
 We’re building the future of wildlife tracking—crowdsourcing it globally and building a decentralized database of animal species. 🐘🦜 By making conservation fun, Ether Go is bridging the gap between **technology** and **environmental protection**, one record at a time.
 
+## Team:
+- [William Wang @heywilliamwang](https://x.com/heywilliamwang)
+
 Join us on **Ether Go** and let’s **save the planet** while collecting awesome record memories! 🌍🐾
 
 
