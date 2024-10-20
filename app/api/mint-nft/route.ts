@@ -93,7 +93,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error minting NFT:", error);
-    return NextResponse.json({ error: "Failed to mint NFT" }, { status: 500 });
+    console.error("Error adding:", error);
+    return NextResponse.json({ error: "Failed to add" }, { status: 500 });
   }
 }

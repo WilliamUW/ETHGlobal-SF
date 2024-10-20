@@ -176,7 +176,7 @@ export default function Home() {
       setNftData(data);
       setStep(3);
     } catch (error) {
-      setError("Error minting NFT. Please try again. " + error);
+      setError("Error. Please try again. " + error);
       setStep(5);
     } finally {
       setIsLoading(false);
@@ -420,6 +420,15 @@ export default function Home() {
 
       {step === 5 && error && (
         <Alert variant="default" className="animate-shake">
+          {image && (
+              <div className="mt-4">
+                <img
+                  src={image}
+                  alt="Preview"
+                  className="max-w-full h-auto max-h-64 rounded-lg"
+                />
+              </div>
+            )}
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
           <Button
