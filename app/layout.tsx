@@ -48,6 +48,22 @@ const myEvmNetworks = [
     rpcUrls: ['https://testnet.skalenodes.com/v1/lanky-ill-funny-testnet'],
     vanityName: 'SKALE Nebula Hub Testnet',
   },
+  {
+    blockExplorerUrls: ['https://explorer-holesky.morphl2.io/'],
+    chainId: 2810,
+    chainName: 'Morph Holesky Testnet',
+    iconUrls: ["https://app.dynamic.xyz/assets/networks/polygon.svg"],
+    name: 'Morph Holesky Testnet',
+    nativeCurrency: {
+      decimals: 18,
+      name: 'ETH',
+      symbol: 'ETH',
+      iconUrl: 'https://app.dynamic.xyz/assets/networks/polygon.svg',
+    },
+    networkId: 2810,
+    rpcUrls: ['https://rpc-quicknode-holesky.morphl2.io/'],
+    vanityName: 'Morph Holesky Testnet',
+  },
 ];
 
 export default function RootLayout({
