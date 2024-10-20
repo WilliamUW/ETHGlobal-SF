@@ -17,7 +17,13 @@ import Image from "next/image";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
-import { account, publicClient, walletClient } from "./config";
+import {
+  account,
+  publicClient,
+  skalePublicClient,
+  skaleWalletClient,
+  walletClient,
+} from "./config";
 import { readFromBlobId, storeStringAndGetBlobId } from "./utility/walrus";
 import { Animal, useAppContext } from "./AppContextProvider";
 
@@ -42,6 +48,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [chain, setChain] = useState("skale");
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -146,24 +154,49 @@ export default function Home() {
         longitude: "-73.9947449",
         date: formattedDate,
       };
-
-      if (account && walletClient) {
-        const { request } = await publicClient.simulateContract({
-          address: "0x968d147e523eed619180030e502c95700f1228b6",
-          abi: wagmiAbi,
-          functionName: "addRecord",
-          args: [
-            nftData.species,
-            nftData.latitude,
-            nftData.longitude,
-            nftData.date,
-            imageBlobId,
-            nftData.description,
-          ],
-          account,
-        });
-        const writeContractResponse = await walletClient.writeContract(request);
-        console.log(writeContractResponse);
+      if (chain == "polygon") {
+        if (account && walletClient) {
+          const { request } = await publicClient.simulateContract({
+            address: "0x968d147e523eed619180030e502c95700f1228b6",
+            abi: wagmiAbi,
+            functionName: "addRecord",
+            args: [
+              nftData.species,
+              nftData.latitude,
+              nftData.longitude,
+              nftData.date,
+              imageBlobId,
+              nftData.description,
+            ],
+            account,
+          });
+          const writeContractResponse = await walletClient.writeContract(
+            request
+          );
+          console.log(writeContractResponse);
+        }
+      } else if (chain == "skale") {
+        if (skalePublicClient && skaleWalletClient) {
+          const { request } = await skalePublicClient.simulateContract({
+            address: "0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef",
+            abi: wagmiAbi,
+            functionName: "addRecord",
+            args: [
+              nftData.species,
+              nftData.latitude,
+              nftData.longitude,
+              nftData.date,
+              imageBlobId,
+              nftData.description,
+            ],
+            account,
+          });
+          // ts-expect-error test
+          const writeContractResponse = await skaleWalletClient.writeContract(
+            request
+          );
+          console.log(writeContractResponse);
+        }
       }
 
       addAnimalFromNft(nftData as Animal);
@@ -176,6 +209,7 @@ export default function Home() {
       setNftData(data);
       setStep(3);
     } catch (error) {
+      console.error(error);
       setError("Error. Please try again. " + error);
       setStep(5);
     } finally {
@@ -421,14 +455,14 @@ export default function Home() {
       {step === 5 && error && (
         <Alert variant="default" className="animate-shake">
           {image && (
-              <div className="mt-4">
-                <img
-                  src={image}
-                  alt="Preview"
-                  className="max-w-full h-auto max-h-64 rounded-lg"
-                />
-              </div>
-            )}
+            <div className="mt-4">
+              <img
+                src={image}
+                alt="Preview"
+                className="max-w-full h-auto max-h-64 rounded-lg"
+              />
+            </div>
+          )}
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
           <Button

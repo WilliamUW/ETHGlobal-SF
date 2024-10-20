@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import BottomNav from "@/components/ButtomNav";
-import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
+import { DynamicContextProvider, mergeNetworks } from "@dynamic-labs/sdk-react-core";
 
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { FlowWalletConnectors } from "@dynamic-labs/flow";
@@ -13,6 +13,42 @@ export const metadata: Metadata = {
 };
 
 const inter = Inter({ subsets: ["latin"] });
+
+// Setting up list of evmNetworks
+const myEvmNetworks = [
+  {
+    blockExplorerUrls: ['https://polygonscan.com/'],
+    chainId: 137,
+    chainName: 'Matic Mainnet',
+    iconUrls: ["https://app.dynamic.xyz/assets/networks/polygon.svg"],
+    name: 'Polygon',
+    nativeCurrency: {
+      decimals: 18,
+      name: 'MATIC',
+      symbol: 'MATIC',
+      iconUrl: 'https://app.dynamic.xyz/assets/networks/polygon.svg',
+    },
+    networkId: 137,
+    rpcUrls: ['https://polygon-rpc.com'],
+    vanityName: 'Polygon',
+  },
+  {
+    blockExplorerUrls: ['https://lanky-ill-funny-testnet.explorer.testnet.skalenodes.com/'],
+    chainId: 37084624,
+    chainName: 'SKALE Nebula Hub Testnet',
+    iconUrls: ["https://app.dynamic.xyz/assets/networks/polygon.svg"],
+    name: 'SKALE Nebula Hub Testnet',
+    nativeCurrency: {
+      decimals: 18,
+      name: 'sFUEL',
+      symbol: 'sFUEL',
+      iconUrl: 'https://app.dynamic.xyz/assets/networks/polygon.svg',
+    },
+    networkId: 37084624,
+    rpcUrls: ['https://testnet.skalenodes.com/v1/lanky-ill-funny-testnet'],
+    vanityName: 'SKALE Nebula Hub Testnet',
+  },
+];
 
 export default function RootLayout({
   children,
@@ -33,6 +69,9 @@ export default function RootLayout({
                 EthereumWalletConnectors,
                 FlowWalletConnectors,
               ],
+              overrides: {
+                evmNetworks: myEvmNetworks,
+              }
             }}
           >
             <AppContextProvider>{children}</AppContextProvider>
