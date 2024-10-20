@@ -360,7 +360,7 @@ export default function Home() {
                 >
                   <Wallet className="w-8 h-8 text-yellow-300" />
                   <p className="text-white text-lg">
-                    1. Connect your Ether Wallet
+                    1. Connect your EVM Wallet
                   </p>
                 </motion.div>
                 <motion.div
@@ -371,7 +371,7 @@ export default function Home() {
                 >
                   <Camera className="w-8 h-8 text-yellow-300" />
                   <p className="text-white text-lg">
-                    2. Take a picture of a Ethermon
+                    2. Take a picture of an animal
                   </p>
                 </motion.div>
                 <motion.div
@@ -382,7 +382,7 @@ export default function Home() {
                 >
                   <Coins className="w-8 h-8 text-yellow-300" />
                   <p className="text-white text-lg">
-                    3. Write a Ether Go Record to support Ethermon tracking
+                    3. Write a Ether Go Record to support wildlife tracking
                   </p>
                 </motion.div>
               </div>
@@ -399,7 +399,7 @@ export default function Home() {
         >
           <Card className="bg-white border-8 border-yellow-400 rounded-3xl shadow-lg">
             <CardHeader className="text-center text-2xl font-bold text-red-600">
-              Capture a Ethermon
+              Capture an Animal
             </CardHeader>
             <CardContent>
               {image && (
