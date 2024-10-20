@@ -17,20 +17,20 @@ const inter = Inter({ subsets: ["latin"] });
 // Setting up list of evmNetworks
 const myEvmNetworks = [
   {
-    blockExplorerUrls: ['https://polygonscan.com/'],
-    chainId: 137,
-    chainName: 'Matic Mainnet',
+    blockExplorerUrls: ['https://amoy.polygonscan.com/'],
+    chainId: 80002,
+    chainName: 'Polygon Amoy Testnet',
     iconUrls: ["https://app.dynamic.xyz/assets/networks/polygon.svg"],
-    name: 'Polygon',
+    name: 'Polygon Amoy Testnet',
     nativeCurrency: {
       decimals: 18,
       name: 'MATIC',
       symbol: 'MATIC',
       iconUrl: 'https://app.dynamic.xyz/assets/networks/polygon.svg',
     },
-    networkId: 137,
-    rpcUrls: ['https://polygon-rpc.com'],
-    vanityName: 'Polygon',
+    networkId: 80002,
+    rpcUrls: ['https://polygon-amoy.g.alchemy.com/v2/PuM8zcodoMXyTiAgrENcLWRnhckxbFJw'],
+    vanityName: 'Polygon Amoy Testnet',
   },
   {
     blockExplorerUrls: ['https://lanky-ill-funny-testnet.explorer.testnet.skalenodes.com/'],

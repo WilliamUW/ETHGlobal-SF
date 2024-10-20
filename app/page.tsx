@@ -36,6 +36,9 @@ const model = genAI.getGenerativeModel({
     'Return what animal specie the picture is, followed by a description of the image.\n\nOutput Format:\nAnimal: [animal specie]\nDescription: [image description]\n\nIf there is no animal, return "No Animal"\n\n',
 });
 
+const SKALE = 37084624;
+const POLYGON = 80002;
+
 export default function Home() {
   const { animals, setAnimals } = useAppContext();
 
@@ -154,7 +157,10 @@ export default function Home() {
         longitude: "-73.9947449",
         date: formattedDate,
       };
-      if (chain == "polygon") {
+      const networkId = await primaryWallet?.getNetwork();
+      console.log(networkId);
+
+      if (networkId == POLYGON) {
         if (account && walletClient) {
           const { request } = await publicClient.simulateContract({
             address: "0x968d147e523eed619180030e502c95700f1228b6",
@@ -175,13 +181,13 @@ export default function Home() {
           );
           console.log(writeContractResponse);
         }
-      } else if (chain == "skale") {
+      } else if (networkId == SKALE) {
         if (skalePublicClient && skaleWalletClient) {
           const account = await skaleWalletClient.getAddresses();
           if (!account || account.length === 0) {
             throw new Error("Account is not defined or empty");
           }
-        
+
           const { request } = await skalePublicClient.simulateContract({
             address: "0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef",
             abi: wagmiAbi,
@@ -196,10 +202,12 @@ export default function Home() {
             ],
             account: account[0], // Pass the correct account here
           });
-        
-          const writeContractResponse = await skaleWalletClient.writeContract(request);
+
+          const writeContractResponse = await skaleWalletClient.writeContract(
+            request
+          );
           console.log(writeContractResponse);
-        }        
+        }
       }
 
       addAnimalFromNft(nftData as Animal);
@@ -295,6 +303,14 @@ export default function Home() {
           </button>
         </div>
       )}
+      {/* <button
+        onClick={async () => {
+          const response = await primaryWallet?.getNetwork();
+          console.log(response);
+        }}
+      >
+        get network
+      </button> */}
 
       {!publicKey && (
         <Card className="bg-gradient-to-br from-purple-400 to-blue-500 border-4 border-yellow-400 rounded-xl shadow-lg overflow-hidden">
