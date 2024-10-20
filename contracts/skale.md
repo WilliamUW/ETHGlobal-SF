@@ -1,1 +1,5 @@
-https://lanky-ill-funny-testnet.explorer.testnet.skalenodes.com/address/0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef?tab=read_contract
+My wildlife tracking app Ether Go, built on Skale Nebula Testnet, is revolutionizing the way we protect our planet by making every wildlife sighting an immutable piece of data, accessible to all and permanent in the fight for conservation. By harnessing Skale's incredible scalability and uniquely gas free feature, we can onboard millions of Pokémon Go users into a global mission, turning their everyday interactions into real, tangible contributions to the preservation of endangered species and ecosystems. This app isn’t just a tool—it’s a movement, empowering people to actively participate in safeguarding biodiversity and providing an essential early-warning system for invasive species, all powered by the future of blockchain technology!
+
+https://lanky-ill-funny-testnet.explorer.testnet.skalenodes.com/address/0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef?tab=contract
+
+Very straight forward to deploy and write to using viem!

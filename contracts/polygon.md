@@ -1,1 +1,5 @@
-https://amoy.polygonscan.com/address/0x968d147e523eed619180030e502c95700f1228b6
+My wildlife tracking app Ether Go, built on Polygon Amoy, is revolutionizing the way we protect our planet by making every wildlife sighting an immutable piece of data, accessible to all and permanent in the fight for conservation. By harnessing Polygon’s incredible scalability, we can onboard millions of Pokémon Go users into a global mission, turning their everyday interactions into real, tangible contributions to the preservation of endangered species and ecosystems. This app isn’t just a tool—it’s a movement, empowering people to actively participate in safeguarding biodiversity and providing an essential early-warning system for invasive species, all powered by the future of blockchain technology!
+
+https://amoy.polygonscan.com/address/0x968d147e523eed619180030e502c95700f1228b6#code
+
+One of the mentors was super helpful in helping me set up Polygon with dynamic and also debugging rpc issues!
