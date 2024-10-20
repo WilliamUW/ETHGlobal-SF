@@ -382,7 +382,7 @@ export default function Home() {
                 >
                   <Coins className="w-8 h-8 text-yellow-300" />
                   <p className="text-white text-lg">
-                    3. Write a Ether Go Record to support wildlife tracking
+                    3. Add a Ether Go Record to support wildlife tracking
                   </p>
                 </motion.div>
               </div>
