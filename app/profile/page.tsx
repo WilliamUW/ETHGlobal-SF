@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
 export default function Profile() {
-  const {primaryWallet} = useDynamicContext();
+  const { primaryWallet } = useDynamicContext();
 
   return (
     <div className="container mx-auto p-4 bg-red-600 min-h-screen">
