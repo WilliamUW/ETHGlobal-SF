@@ -8,7 +8,7 @@ import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { FlowWalletConnectors } from "@dynamic-labs/flow";
 import { AppContextProvider } from "./AppContextProvider";
 export const metadata: Metadata = {
-  title: "EtherDex",
+  title: "Ether Go",
   description: "Discover and collect animals in the wild!",
 };
 
