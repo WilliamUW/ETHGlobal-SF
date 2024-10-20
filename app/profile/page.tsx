@@ -3,8 +3,11 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
 export default function Profile() {
+  const {primaryWallet} = useDynamicContext();
+
   return (
     <div className="container mx-auto p-4 bg-red-600 min-h-screen">
       <motion.h1
@@ -13,7 +16,7 @@ export default function Profile() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        Your Etherdex Profile
+        Your Profile
       </motion.h1>
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
@@ -32,7 +35,7 @@ export default function Profile() {
               whileTap={{ scale: 0.9 }}
             />
             <h2 className="text-3xl font-bold text-white">William Wang</h2>
-            <p className="text-sm text-yellow-300">bwilliamwang@gmail.com</p>
+            <p className="text-sm text-yellow-300">{primaryWallet?.address}</p>
             <p className="text-sm text-white mt-2">
               Ethermon Master in Training
             </p>
