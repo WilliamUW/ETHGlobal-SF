@@ -2,4 +2,6 @@ My wildlife tracking app Ether Go, built on Flow EVM Testnet, is revolutionizing
 
 https://evm-testnet.flowscan.io/address/0x632e69488E25F1beC16A11cF1AA7B2261f2B94ef?tab=txs
 
-Very easy to deploy and utilize using viem!
+Feedback: It was very straight forward to deploy to the Flow EVM testnet and send transactions to the smart contract using viem! I love how you get 1000 testnet FLOW to test with, so I never felt restricted by testnet token availability and I could test to my heart's content. 
+
+I love the speed and low fees of Flow, and deploying using Remix and testing the smart contract using Viem was a very positive experience for me!
